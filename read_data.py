@@ -60,15 +60,3 @@ def read_data(filename):
         f.readline()
         
     return links, demands, paths
-
-# print("Links:")
-# for a in range(len(links)):
-#     print(links[a])
-
-# print("Demands:")
-# for b in range(len(demands)):
-#     print(demands[b])
-
-# print("Paths:")
-# for c in range(len(paths)):
-#     print(paths[c])
