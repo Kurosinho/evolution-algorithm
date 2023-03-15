@@ -1,24 +1,25 @@
 import read_data
 import random
-import numpy as np
+#import numpy as np
 
-class gene:
-    def __init__(self, a, b, c):
-        self.a = a
-        self.b = b
-        self.c = c
+links, demands, paths = read_data.read_data("data.txt")
 
-links, demands, paths = read_data("data.txt")
-
-genes = []
+chromosome = []
 
 for i in range(len(demands)):
-    hd = demands[i].volume
-    for j in range(demands[i].no_of_links):
+    hd = int(demands[i].volume)
+    print(hd)
+    check = 0
+    gene = []
+    for j in range(demands[i].no_of_links - 1):
         x = random.randint(0, hd)
-        allelles = []
-        for k in range(3):
+        gene.append(x)
+        hd = hd - x
+    for a in range(len(gene)):
+        check = check + gene[a]
+    if check != demands[i].volume:
+        gap = int(demands[i].volume) - check
+        gene.append(gap)
+    chromosome.append(gene)
 
-
-pd, d = (3, len(demands))
-chromosome = 
+print(chromosome)

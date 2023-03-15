@@ -58,7 +58,8 @@ def read_data(filename):
             path = Path(newPath[0], newPath[1:])
             paths.append(path)
         f.readline()
-        return links, demands, paths
+        
+    return links, demands, paths
 
 # print("Links:")
 # for a in range(len(links)):
