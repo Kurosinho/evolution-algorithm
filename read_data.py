@@ -21,7 +21,9 @@ class Demand:
 
 
 class Path:
-    def __init__(self, amount, paths):
+    def __init__(self, d, l, amount, paths):
+        self.d = d
+        self.l = l
         self.amount = amount
         self.paths = paths
 
@@ -55,7 +57,7 @@ def read_data(filename):
         for i in range(no_of_links):
             pathData = f.readline()
             newPath = pathData.split(" ")
-            path = Path(newPath[0], newPath[1:])
+            path = Path(x, i, newPath[0], newPath[1:-1])
             paths.append(path)
         f.readline()
         

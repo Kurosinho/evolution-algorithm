@@ -22,3 +22,12 @@ def create_chromosome():
         chromosome.append(gene)
 
     return chromosome
+
+def create_population(n):
+    population = []
+
+    for i in range(n):
+        chrome = create_chromosome()
+        population.append(chrome)
+
+    return population
