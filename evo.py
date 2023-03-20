@@ -6,8 +6,9 @@ links, demands, paths = read_data.read_data("newData.txt")
 
 #chrome = chromosome.create_chromosome()
 #chrome = [[0,3,0],[2,0,2],[2,3],[1,0,1],[1,2,0],[2,2,0]]
-
-pop = chromosome.create_population(100)
+#TODO: Generalnie chodzi o to, żeby tworzył nowe populacje dopóki nie osiągniemy pożądanego 
+#poziomu optymalizacji
+pop = chromosome.create_population(10)
 ce = [2, 4, 3, 2, 6]
 m = 2
 
@@ -42,15 +43,19 @@ def evolution(population):
 
     for chrom in pop:
         p = overload(chrom)
+        #TODO: uporządkować według jakości
         popul.append(p)
     
     for p in range(len(popul)):
         newChrom = []
         for g in range(len(population[0])):
             mutation = random.randint(0, 100)
+            #TODO: krzyżować lepsze osobniki; mutacja jako przesunięcie jedynki
+            #dwa osobniki z krzyżowania
             x = random.randint(0, len(population) - 1)
             y = random.randint(0, len(population) - 1)
             r = random.randint(0, 1)
+            random.choices(population, popul)
             if r == 0:
                 if mutation > 90:
                     random.shuffle(population[x][g])
@@ -64,9 +69,14 @@ def evolution(population):
                 else:
                     newChrom.append(population[y][g])
         newPop.append(newChrom)
+        #loop until stopping criterion met, introduce stopping criterion
     return newPop
 
 
-print(evolution(pop))
+s = evolution(pop)
+
+for a in s:
+    print(a)
+
 
             

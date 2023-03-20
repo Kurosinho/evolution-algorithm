@@ -19,6 +19,7 @@ def create_chromosome():
         if check != demands[i].volume:
             gap = int(demands[i].volume) - check
             gene.append(gap)
+        random.shuffle(gene)
         chromosome.append(gene)
 
     return chromosome
