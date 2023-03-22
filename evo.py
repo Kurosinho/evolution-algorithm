@@ -8,10 +8,10 @@ links, demands, paths = read_data.read_data("newData.txt")
 #chrome = [[0,3,0],[2,0,2],[2,3],[1,0,1],[1,2,0],[2,2,0]]
 #TODO: Generalnie chodzi o to, żeby tworzył nowe populacje dopóki nie osiągniemy pożądanego 
 #poziomu optymalizacji
-pop = chromosome.create_population(10)
+pop = chromosome.create_population(2)
 ce = [2, 4, 3, 2, 6]
 m = 2
-
+print(pop)
 Ce = [h * m for h in ce]
 
 
@@ -36,47 +36,89 @@ def overload(chromosome):
     
     return maximum
 
+def crossover(population, w):
+    bestPop = []
+    for g in range(len(population)):
+        newPop = []
+        x = random.choices(population, w)
+        y = random.choices(population, w)
+        while y == x:
+            y = random.choices(population, w)
+        newChrom = []
+        newChrom2 = []
+        for i in range(len(population[0])):
+            r = random.randint(0, 1)
+            if r == 0:
+                newChrom.append(x[0][i])
+                newChrom2.append(y[0][i])
+            elif r == 1:
+                newChrom.append(y[0][i])
+                newChrom2.append(x[0][i])
+        newPop.append(newChrom)
+        newPop.append(newChrom2)
+        
+        betterWeights = []
+        for chrom in newPop:
+            p = overload(chrom)
+            betterWeights.append(p)
 
-def evolution(population):
+        upset = max(betterWeights)
+        downset = min(betterWeights)
+        weights = [z - downset + upset for z in betterWeights]
+        k = len(newPop)
+        betterPop = random.choices(newPop, weights, k=int(k))
+        bestPop = betterPop
+    
+    return bestPop
+        
+
+
+def evolution(population, k):
     popul = []
     newPop = []
 
-    for chrom in pop:
+    for chrom in population:
         p = overload(chrom)
-        #TODO: uporządkować według jakości
         popul.append(p)
-    
-    for p in range(len(popul)):
-        newChrom = []
-        for g in range(len(population[0])):
-            mutation = random.randint(0, 100)
-            #TODO: krzyżować lepsze osobniki; mutacja jako przesunięcie jedynki
-            #dwa osobniki z krzyżowania
-            x = random.randint(0, len(population) - 1)
-            y = random.randint(0, len(population) - 1)
-            r = random.randint(0, 1)
-            random.choices(population, popul)
-            if r == 0:
-                if mutation > 90:
-                    random.shuffle(population[x][g])
-                    newChrom.append(population[x][g])
-                else:
-                    newChrom.append(population[x][g])
-            elif r == 1:
-                if mutation > 90:
-                    random.shuffle(population[y][g])
-                    newChrom.append(population[y][g])
-                else:
-                    newChrom.append(population[y][g])
-        newPop.append(newChrom)
+
+    upset = max(popul)
+    downset = min(popul)
+    weights = [z - downset + upset for z in popul]
+
+    for p in range(k):
+        newPop = crossover(population, weights)
+                
+    for x in range(len(newPop)):
+        mutation = random.randint(0, 100)
+        if mutation > 90:
+            gene = random.randint(0, len(newPop[0]) - 1)
+            allelle = random.randint(0, len(newPop[0][gene]) - 1)
+            if newPop[x][gene][allelle] != 0:
+                newPop[x][gene][allelle] = newPop[x][gene][allelle] - 1
+                newAllelle = random.randint(0, len(newPop[0][gene]) - 1)
+                newPop[x][gene][newAllelle] = newPop[x][gene][newAllelle] + 1
         #loop until stopping criterion met, introduce stopping criterion
+
     return newPop
 
+oo = []
+no = []
 
-s = evolution(pop)
+sg = evolution(pop, 1)
+for chrom in sg:
+        p = overload(chrom)
+        oo.append(p)
 
-for a in s:
-    print(a)
+while sum(oo) != sum(no):
+    np = evolution(sg, 1)
+    for chrom in np:
+        p = overload(chrom)
+        no.append(p)
+
+
+print ("new population")
+for a in range(len(np)):
+    print(a, np[a])
 
 
             
