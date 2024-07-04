@@ -2,7 +2,7 @@ import read_data
 import random
 
 def create_chromosome():
-    links, demands, paths = read_data.read_data("newData.txt")
+    links, demands, paths = read_data.read_data("12node.txt")
 
     chromosome = []
 

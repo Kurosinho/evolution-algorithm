@@ -1,15 +1,18 @@
 import chromosome
 import read_data
 import random
+import time
 
-links, demands, paths = read_data.read_data("newData.txt")
+start = time.time()
+links, demands, paths = read_data.read_data("12node.txt")
 
-#chrome = chromosome.create_chromosome()
+# chrome = chromosome.create_chromosome()
+# print(len(chrome))
 #chrome = [[0,3,0],[2,0,2],[2,3],[1,0,1],[1,2,0],[2,2,0]]
 #TODO: Generalnie chodzi o to, żeby tworzył nowe populacje dopóki nie osiągniemy pożądanego 
 #poziomu optymalizacji
 pop = chromosome.create_population(10)
-ce = [2, 4, 3, 2, 6]
+ce = [2, 4, 3, 2, 6, 3, 2, 4, 3, 2, 6, 4, 3, 4, 2, 6, 4, 2, 5, 2, 4, 2, 4, 2, 4, 2, 3, 2, 4, 3, 2, 2, 4, 3, 2, 4, 3, 6, 3]
 m = 2
 #print(pop)
 Ce = [h * m for h in ce]
@@ -18,6 +21,7 @@ Ce = [h * m for h in ce]
 def overload(chromosome):
     linkloads = []
     maximum = -1000000
+    #print(links)
     for link in range(len(links)):
         linksum = 0
         check = link + 1 
@@ -104,11 +108,11 @@ np = []
 for i in range(10):
     sg = evolution(sg, 6)
     np = sg
-
+end = time.time()
 
 print ("new population")
 for a in range(len(np)):
     print(a, np[a])
-
+print("Elapsed time: ", end-start)
 
             
